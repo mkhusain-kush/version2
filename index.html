@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DM Clinical Intranet</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-mark">DM</div>
+        <div class="logo-sub">Clinical Research</div>
+      </div>
+
+      <nav class="nav" id="main-nav" aria-label="Primary">
+        <a href="#/home" class="active" data-route="home"><div class="icon" aria-hidden="true">🏠</div><div>Home</div></a>
+        <a href="#/directory" data-route="directory"><div class="icon" aria-hidden="true">👥</div><div>Directory</div></a>
+        <a href="#/forms" data-route="forms"><div class="icon" aria-hidden="true">📄</div><div>Forms</div></a>
+        <a href="#/admin" data-route="admin"><div class="icon" aria-hidden="true">⚙️</div><div>Admin</div></a>
+      </nav>
+    </aside>
+
+    <main class="main" id="view-root">
+      <p style="color: var(--muted); margin: 0">Loading…</p>
+    </main>
+  </div>
+
+  
+
+  <script src="js/home-data.js"></script>
+  <script src="js/home-render.js"></script>
+  <script src="js/admin-panel.js"></script>
+  
+<!-- view-templates -->
+<template id="tpl-directory"><div class="topbar">
+  <h1 class="page-title">Directory</h1>
+</div>
+
+<div class="secondary-main">
+  <div class="card">
+    <div class="card-header">Staff directory</div>
+    <div class="card-body">
+      <p>The directory opens in AppSheet. Use the button when you are signed in to Google with access to the app.</p>
+      <p>
+        <a
+          class="btn-primary"
+          href="https://www.appsheet.com/start/dc5a98dd-d681-41c8-a309-c8ef3a95693b"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Open directory (AppSheet)</a>
+      </p>
+    </div>
+  </div>
+</div>
+</template>
+<template id="tpl-forms"><div class="topbar">
+  <h1 class="page-title">Forms</h1>
+</div>
+
+<div class="secondary-main">
+  <div class="card">
+    <div class="card-header">Forms &amp; requests</div>
+    <div class="card-body">
+      <p>
+        Department request links and form catalogs will live here. For now, use <strong>Home</strong> and scroll to
+        <strong>Quick Request → I Need</strong> for the same list as the original single-page layout.
+      </p>
+      <p style="margin-bottom: 0"><a class="btn-primary" href="#/home">Go to Home</a></p>
+    </div>
+  </div>
+</div>
+</template>
+<!-- /view-templates -->
+
+  <script src="script.js"></script>
+</body>
+</html>
