@@ -3,42 +3,1234 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>DM Clinical Intranet</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>DM Clinical Write Plus</title>
+  <style>
+:root {
+      --header-blue: #0c2340;
+      --header-blue-mid: #0f3058;
+      --accent: var(--header-blue);
+      --accent-hover: #0a1f3d;
+      --accent-muted: #1e4975;
+      --accent-soft: rgba(12, 35, 64, 0.12);
+      --accent-ring: rgba(12, 35, 64, 0.35);
+      --danger: #ef4444;
+      --bg: #f8f9fb;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e8eaef;
+      --border-strong: #dce0e8;
+      --hover: rgba(12, 35, 64, 0.07);
+      --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 8px 24px -6px rgba(15, 23, 42, 0.08);
+      --shadow-lg: 0 4px 12px rgba(15, 23, 42, 0.08);
+      --radius: 14px;
+      --radius-sm: 10px;
+      --radius-pill: 999px;
+      --header-h: 64px;
+      --nav-h: 48px;
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      --primary: var(--accent);
+      --primary-dark: var(--accent-hover);
+      --primary-soft: var(--accent-soft);
+      --sidebar: var(--header-blue);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* —— Top header —— */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .site-header__bar {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      min-height: var(--header-h);
+      padding: 0 22px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .site-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      flex-shrink: 0;
+    }
+
+    .site-brand__mark {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background: var(--accent);
+      color: #fff;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .site-brand__meta {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .site-brand__title {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.02em;
+    }
+
+    .site-brand__sub {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .site-search {
+      flex: 1 1 280px;
+      max-width: 584px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 10px 0 16px;
+      min-height: 44px;
+      height: 44px;
+      border: 1px solid #dfe1e5;
+      border-radius: var(--radius-pill);
+      background: #fff;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .site-search:hover {
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+      border-color: transparent;
+    }
+
+    .site-search:focus-within {
+      border-color: transparent;
+      box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    }
+
+    .site-search__g {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .site-search__g-logo {
+      display: block;
+    }
+
+    .site-search__input {
+      flex: 1;
+      border: 0;
+      background: transparent;
+      font: inherit;
+      font-size: 16px;
+      color: rgba(0, 0, 0, 0.87);
+      min-width: 0;
+      outline: none;
+      line-height: 1.5;
+    }
+
+    .site-search__input::placeholder {
+      color: #70757a;
+    }
+
+    .site-search__submit {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      margin-right: -4px;
+      padding: 0;
+      border: none;
+      border-radius: var(--radius-pill);
+      background: transparent;
+      cursor: pointer;
+      color: #4285f4;
+      transition: background var(--transition);
+    }
+
+    .site-search__submit:hover {
+      background: rgba(66, 133, 244, 0.08);
+    }
+
+    .site-search__submit:focus-visible {
+      outline: 2px solid #4285f4;
+      outline-offset: 2px;
+    }
+
+    .site-header__actions {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-left: auto;
+      flex-shrink: 0;
+    }
+
+    .icon-btn {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      padding: 0;
+      border: none;
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .icon-btn:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .icon-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .icon-btn--badge::after {
+      content: attr(data-badge);
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      min-width: 16px;
+      height: 16px;
+      padding: 0 4px;
+      border-radius: var(--radius-pill);
+      background: var(--danger);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 16px;
+      text-align: center;
+    }
+
+    /* —— Horizontal nav —— */
+    .site-nav {
+      display: flex;
+      align-items: stretch;
+      gap: 0;
+      padding: 0 22px;
+      max-width: 1440px;
+      margin: 0 auto;
+      width: 100%;
+      border-top: 1px solid var(--border);
+      min-height: var(--nav-h);
+    }
+
+    .site-nav a {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 18px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color var(--transition);
+    }
+
+    .site-nav a:hover {
+      color: var(--text);
+    }
+
+    .site-nav a.active {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .site-nav a.active::after {
+      content: "";
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 0;
+      height: 3px;
+      border-radius: 3px 3px 0 0;
+      background: var(--accent);
+    }
+
+    .site-nav a:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: -2px;
+    }
+
+    /* —— Main —— */
+    .main {
+      flex: 1;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 28px 22px 48px;
+      min-width: 0;
+    }
+
+    .loading-line {
+      color: var(--muted);
+      margin: 0;
+      font-size: 15px;
+    }
+
+    .page-head {
+      margin-bottom: 24px;
+    }
+
+    .page-head--home {
+      margin-bottom: 20px;
+    }
+
+    .page-title {
+      font-size: clamp(1.5rem, 3vw, 1.875rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin: 0 0 6px;
+      color: var(--header-blue);
+    }
+
+    .page-lede {
+      margin: 0;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .page-narrow {
+      max-width: 720px;
+    }
+
+    .page-actions {
+      margin-bottom: 0 !important;
+    }
+
+    /* —— Home two-column —— */
+    .home-page {
+      width: 100%;
+    }
+
+    .home-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .home-main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .home-aside {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: sticky;
+      top: calc(var(--header-h) + var(--nav-h) + 24px);
+    }
+
+    /* —— Cards —— */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .card-header {
+      padding: 16px 20px 14px;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #fff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      background: linear-gradient(180deg, var(--header-blue-mid) 0%, var(--header-blue) 100%);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .announcement-card .card-body {
+      padding: 0;
+    }
+
+    .tz-card .card-body {
+      padding: 18px 20px;
+    }
+
+    .workspace-card .card-body {
+      padding: 16px;
+    }
+
+    /* Quick links */
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(8, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .quick-link {
+      text-align: center;
+      text-decoration: none;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 14px 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 104px;
+      word-break: break-word;
+      transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
+      border: 1px solid transparent;
+    }
+
+    .quick-link:hover {
+      background: var(--hover);
+      border-color: var(--border);
+      box-shadow: var(--shadow-sm);
+      transform: translateY(-1px);
+    }
+
+    .app-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      border: 1px solid rgba(79, 70, 229, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .quick-link span {
+      font-weight: 600;
+      line-height: 1.35;
+      font-size: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    /* Google / workspace grid */
+    .app-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .app-grid--workspace {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .suite-item {
+      text-decoration: none;
+      color: var(--text);
+      border-radius: var(--radius-sm);
+      padding: 14px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 96px;
+      text-align: center;
+      word-break: break-word;
+      transition: background var(--transition), box-shadow var(--transition);
+      border: 1px solid var(--border);
+      background: #fafbfc;
+    }
+
+    .suite-item:hover {
+      background: var(--card);
+      box-shadow: var(--shadow-sm);
+      border-color: var(--border-strong);
+    }
+
+    .suite-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-soft);
+      border: 1px solid rgba(79, 70, 229, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 8px;
+      flex-shrink: 0;
+    }
+
+    .suite-item span {
+      font-weight: 600;
+      font-size: 11px;
+      line-height: 1.3;
+    }
+
+    .suite-icon-wrap img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+    /* Clocks */
+    .tz-clocks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .tz-clock {
+      text-align: center;
+      padding: 12px 10px;
+      border-radius: var(--radius-sm);
+      background: #fafbfc;
+      border: 1px solid var(--border);
+      min-width: 0;
+    }
+
+    .tz-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .tz-time {
+      font-size: 18px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+
+    .tz-date {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* Announcement */
+    .email-box {
+      border: none;
+      border-radius: 0;
+      overflow: hidden;
+      background: var(--card);
+    }
+
+    .email-subject {
+      padding: 18px 20px;
+      border-bottom: 1px solid var(--border);
+      background: #fafbfc;
+    }
+
+    .email-label {
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .email-subject-text {
+      font-size: 17px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.35;
+    }
+
+    .email-body {
+      padding: 20px;
+      line-height: 1.75;
+      white-space: pre-line;
+      color: #334155;
+      min-height: 200px;
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 4px 0 0;
+      color: var(--header-blue);
+    }
+
+    /* I Need */
+    .need-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .need-card {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 16px;
+      background: #fafbfc;
+      transition: box-shadow var(--transition), border-color var(--transition);
+      min-height: 100%;
+    }
+
+    .need-card:hover {
+      box-shadow: var(--shadow-sm);
+      border-color: var(--border-strong);
+    }
+
+    .need-title {
+      font-weight: 700;
+      margin-bottom: 10px;
+      font-size: 13px;
+      color: var(--accent);
+    }
+
+    .need-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .need-card li {
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .need-card li:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .need-card a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.45;
+      display: block;
+      border-radius: 6px;
+      margin: -2px -4px;
+      padding: 2px 4px;
+      transition: color var(--transition), background var(--transition);
+    }
+
+    .need-card a:hover {
+      color: var(--accent);
+      background: var(--accent-soft);
+    }
+
+    .lower-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .list li {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      background: #fafbfc;
+    }
+
+    .list strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .list span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .view-error {
+      color: #b91c1c;
+      padding: 16px 18px;
+      background: #fef2f2;
+      border-radius: var(--radius-sm);
+      border: 1px solid #fecaca;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--header-blue);
+      color: white;
+      text-decoration: none;
+      padding: 11px 20px;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: -0.01em;
+      border: 1px solid transparent;
+      box-shadow: 0 1px 2px rgba(12, 35, 64, 0.3);
+      transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(12, 35, 64, 0.35);
+    }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 3px;
+    }
+
+    /* —— Admin —— */
+    .admin-page {
+      max-width: 960px;
+    }
+
+    .admin-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    .admin-toolbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .admin-link {
+      color: var(--accent);
+      font-weight: 600;
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card);
+      box-shadow: var(--shadow-sm);
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .admin-link:hover {
+      background: var(--hover);
+      border-color: var(--border-strong);
+    }
+
+    .admin-btn {
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      background: var(--card);
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+      box-shadow: var(--shadow-sm);
+      transition: background var(--transition), border-color var(--transition);
+    }
+
+    .admin-btn:hover {
+      background: #fafbfc;
+      border-color: var(--border-strong);
+    }
+
+    .admin-btn-primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .admin-btn-primary:hover {
+      background: var(--accent-hover);
+      border-color: var(--accent-hover);
+    }
+
+    .admin-btn-danger {
+      border-color: #fecaca;
+      color: #b91c1c;
+      background: #fef2f2;
+    }
+
+    .admin-btn-small {
+      padding: 6px 10px;
+      font-size: 13px;
+    }
+
+    .admin-login {
+      max-width: 480px;
+    }
+
+    .admin-hint {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 0 0 14px;
+    }
+
+    .admin-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--sidebar);
+      margin: 12px 0 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .admin-input,
+    .admin-textarea {
+      width: 100%;
+      max-width: 100%;
+      padding: 11px 14px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font: inherit;
+      font-size: 14px;
+      box-sizing: border-box;
+      background: #fff;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+
+    .admin-input:focus,
+    .admin-textarea:focus {
+      outline: none;
+      border-color: var(--accent-muted);
+      box-shadow: 0 0 0 3px var(--accent-soft);
+    }
+
+    .admin-input-sm {
+      max-width: 72px;
+    }
+
+    .admin-textarea {
+      resize: vertical;
+      min-height: 140px;
+    }
+
+    .admin-err {
+      color: #b91c1c;
+      font-size: 14px;
+      margin: 8px 0 0;
+    }
+
+    .admin-section {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--card);
+      margin-bottom: 16px;
+      padding: 0 16px 16px;
+      box-shadow: var(--shadow);
+    }
+
+    .admin-section summary {
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 15px;
+      padding: 16px 4px;
+      color: var(--sidebar);
+      list-style: none;
+      letter-spacing: -0.01em;
+    }
+
+    .admin-section summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .admin-section-body {
+      padding-top: 4px;
+    }
+
+    .admin-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .admin-row .admin-input {
+      flex: 1 1 140px;
+    }
+
+    .admin-row-nested {
+      margin-left: 0;
+      padding-left: 12px;
+      border-left: 3px solid var(--accent-soft);
+    }
+
+    .admin-need-block {
+      margin-bottom: 18px;
+      padding-bottom: 14px;
+      border-bottom: 1px dashed var(--border);
+    }
+
+    .admin-need-title {
+      flex: 2 1 220px;
+    }
+
+    .admin-lower-card {
+      margin-bottom: 20px;
+      padding: 14px;
+      background: #fafbfc;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+    }
+
+    .admin-toast {
+      margin: 12px 0 0;
+      padding: 11px 16px;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      border-radius: var(--radius-sm);
+      color: #065f46;
+      font-size: 14px;
+    }
+
+    /* —— Responsive —— */
+    @media (max-width: 1280px) {
+      .quick-links {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+      }
+
+      .need-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 1100px) {
+      .home-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .home-aside {
+        position: static;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 20px;
+      }
+
+      .quick-links {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .app-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .app-grid--workspace {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+
+      .need-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lower-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 900px) {
+      .site-header__bar {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        gap: 12px;
+      }
+
+      .site-search {
+        order: 3;
+        flex: 1 1 100%;
+        max-width: none;
+      }
+
+      .site-nav {
+        padding: 0 16px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+
+      .site-nav::-webkit-scrollbar {
+        display: none;
+      }
+
+      .site-nav a {
+        flex-shrink: 0;
+        padding: 0 14px;
+        font-size: 13px;
+      }
+
+      .main {
+        padding: 20px 16px 36px;
+      }
+
+      .home-aside {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-links {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .app-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .app-grid--workspace {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .site-brand__meta {
+        display: none;
+      }
+
+      .page-title {
+        font-size: 1.375rem;
+      }
+
+      .tz-clocks {
+        grid-template-columns: 1fr;
+      }
+
+      .tz-time {
+        font-size: 17px;
+      }
+
+      .card-body {
+        padding: 16px;
+      }
+
+      .quick-links {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .app-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .app-grid--workspace {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .need-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lower-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .quick-link,
+      .suite-item {
+        min-height: 96px;
+        padding: 10px 6px;
+      }
+
+      .app-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 20px;
+      }
+    }
+
+  </style>
 </head>
 <body>
-  <div class="layout">
-    <aside class="sidebar">
-      <div class="logo">
-        <div class="logo-mark">DM</div>
-        <div class="logo-sub">Clinical Research</div>
+<div class="app">
+    <header class="site-header">
+      <div class="site-header__bar">
+        <a href="#/home" class="site-brand">
+          <span class="site-brand__mark">DM</span>
+          <span class="site-brand__meta">
+            <span class="site-brand__title">Clinical Research</span>
+            <span class="site-brand__sub">Write Plus</span>
+          </span>
+        </a>
+
+        <form
+          id="google-search-form"
+          class="site-search"
+          action="https://www.google.com/search"
+          method="get"
+          target="_blank"
+          role="search"
+        >
+          <span class="site-search__g" aria-hidden="true">
+            <svg class="site-search__g-logo" viewBox="0 0 24 24" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" />
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" />
+            </svg>
+          </span>
+          <input
+            type="search"
+            name="q"
+            class="site-search__input"
+            placeholder="Search Google or type a URL"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+            aria-label="Search Google"
+            title="Search Google"
+          />
+          <button type="submit" class="site-search__submit" aria-label="Google Search" title="Google Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="#4285F4" stroke-width="2" />
+              <path d="m20 20-4.35-4.35" stroke="#4285F4" stroke-width="2" stroke-linecap="round" />
+            </svg>
+          </button>
+        </form>
+
+        <div class="site-header__actions">
+          <button type="button" class="icon-btn" aria-label="Your profile">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </button>
+          <button type="button" class="icon-btn icon-btn--badge" aria-label="Notifications" data-badge="3">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
+              <path d="M13.73 21a2 2 0 0 1-3.46 0" />
+            </svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Apps">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+          </button>
+          <button type="button" class="icon-btn" aria-label="Settings">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="12" cy="12" r="3" />
+              <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
+            </svg>
+          </button>
+        </div>
       </div>
 
-      <nav class="nav" id="main-nav" aria-label="Primary">
-        <a href="#/home" class="active" data-route="home"><div class="icon" aria-hidden="true">🏠</div><div>Home</div></a>
-        <a href="#/directory" data-route="directory"><div class="icon" aria-hidden="true">👥</div><div>Directory</div></a>
-        <a href="#/forms" data-route="forms"><div class="icon" aria-hidden="true">📄</div><div>Forms</div></a>
-        <a href="#/admin" data-route="admin"><div class="icon" aria-hidden="true">⚙️</div><div>Admin</div></a>
+      <nav class="site-nav" id="main-nav" aria-label="Primary">
+        <a href="#/home" class="active" data-route="home">Home</a>
+        <a href="#/directory" data-route="directory">Directory</a>
+        <a href="#/forms" data-route="forms">Forms</a>
+        <a href="#/admin" data-route="admin">Admin</a>
       </nav>
-    </aside>
+    </header>
 
     <main class="main" id="view-root">
-      <p style="color: var(--muted); margin: 0">Loading…</p>
-    </main>
-  </div>
-
-  
-
-  <script src="js/home-data.js"></script>
-  <script src="js/home-render.js"></script>
-  <script src="js/admin-panel.js"></script>
-  
-<!-- view-templates -->
-<template id="tpl-directory"><div class="topbar">
+    <div data-view="home">
+      <div class="home-page">
+        <div class="home-grid">
+          <div class="home-main">
+            <div class="card">
+              <div class="card-header">Quick Links</div>
+              <div class="card-body"><div class="quick-links"><a class="quick-link" href="#"><div class="app-icon">🦠</div><span>COVID</span></a><a class="quick-link" href="#"><div class="app-icon">💼</div><span>ADP Login</span></a><a class="quick-link" href="#"><div class="app-icon">💳</div><span>Paycom</span></a><a class="quick-link" href="#"><div class="app-icon">🧾</div><span>CRIO</span></a><a class="quick-link" href="#"><div class="app-icon">🏥</div><span>Florence</span></a><a class="quick-link" href="#"><div class="app-icon">📈</div><span>ComTrak</span></a><a class="quick-link" href="#"><div class="app-icon">🧪</div><span>ATOM</span></a><a class="quick-link" href="#"><div class="app-icon">📊</div><span>Exec Reports</span></a><a class="quick-link" href="#"><div class="app-icon">❤️</div><span>Health Matrix</span></a><a class="quick-link" href="#"><div class="app-icon">🧭</div><span>Site Companion</span></a><a class="quick-link" href="#"><div class="app-icon">📂</div><span>Shared Drive</span></a><a class="quick-link" href="#"><div class="app-icon">📝</div><span>Quick Request</span></a></div></div>
+            </div>
+            <div class="card announcement-card">
+              <div class="card-header">DM Clinical announcement</div>
+              <div class="card-body">
+                <div class="email-box">
+                  <div class="email-subject">
+                    <div class="email-label">Latest update</div>
+                    <div class="email-subject-text">Follow-Up Update – Website Access &amp; Email Delivery</div>
+                  </div>
+                  <div class="email-body">This is a brief follow-up regarding DM website access and email delivery.<br><br>We are actively monitoring the situation, and everything is functioning smoothly. At this time, we are not seeing any new emails being routed to spam.<br><br>Please note that some older email threads that were previously flagged may still go to Spam/Junk. Please review your spam folders carefully, and ensure you go in and mark the email &quot;Not Spam&quot; to help deliver future messages to your inbox.<br><br>Please notify IT at helpdesk@dmclinical.com if you notice any irregularities.<br><br>Thank you.<br><br>IT &amp; Cyber Security Department<br>DM Clinical Research</div>
+                </div>
+              </div>
+            </div>
+            <h2 class="section-title">Quick Request</h2>
+            <div class="card">
+              <div class="card-header">I Need</div>
+              <div class="card-body"><div class="need-grid"><div class="need-card"><div class="need-title">System Operations &amp; IT</div><ul><li><a href="#">Submit a System Access Request</a></li><li><a href="#">eSource Signoff Document</a></li><li><a href="#">Data Request Form</a></li><li><a href="#">Internal eSource Data Fix Form</a></li><li><a href="#">Finance Query Ticketing</a></li><li><a href="#">Discretionary Payment Form</a></li><li><a href="#">JotForm Request Form</a></li></ul></div><div class="need-card"><div class="need-title">Marketing Department</div><ul><li><a href="#">Project Request Form</a></li><li><a href="#">Campaign Request Form</a></li><li><a href="#">Patient Engagement Request</a></li><li><a href="#">Community Outreach Request</a></li><li><a href="#">Outstanding Patient Submission</a></li></ul></div><div class="need-card"><div class="need-title">Regulatory Department</div><ul><li><a href="#">Regulatory Department Directory</a></li><li><a href="#">IRB Access Request Form</a></li><li><a href="#">Initial DoA Verification Sign Off</a></li><li><a href="#">DoA Change Request Form</a></li><li><a href="#">e-Training Log Request Form</a></li><li><a href="#">IRB Handbooks</a></li><li><a href="#">Principal Investigator Change Initiation Form</a></li></ul></div><div class="need-card"><div class="need-title">Site Operations</div><ul><li><a href="#">Site Operations Requests</a></li><li><a href="#">Patient Enrollment Support</a></li><li><a href="#">Outstanding Patient Submission</a></li></ul></div><div class="need-card"><div class="need-title">Learning &amp; Development</div><ul><li><a href="#">Training Requests</a></li><li><a href="#">Learning Resources</a></li><li><a href="#">Department Onboarding</a></li></ul></div><div class="need-card"><div class="need-title">Patient Enrollment</div><ul><li><a href="#">Enrollment Request Form</a></li><li><a href="#">Patient Outreach Support</a></li><li><a href="#">Enrollment Follow-up</a></li></ul></div><div class="need-card"><div class="need-title">Conference Request</div><ul><li><a href="#">Conference Approval Form</a></li><li><a href="#">Travel &amp; Attendance Request</a></li></ul></div><div class="need-card"><div class="need-title">QACE Department</div><ul><li><a href="#">QACE Forms</a></li><li><a href="#">Compliance Request</a></li></ul></div><div class="need-card"><div class="need-title">Safety Team</div><ul><li><a href="#">Safety Event Request</a></li><li><a href="#">Safety Team Forms</a></li></ul></div><div class="need-card"><div class="need-title">Clinical Data</div><ul><li><a href="#">Clinical Data Request</a></li><li><a href="#">Reports &amp; Tracking</a></li></ul></div><div class="need-card"><div class="need-title">Wellness</div><ul><li><a href="#">Wellness Program Request</a></li><li><a href="#">Employee Support Resources</a></li></ul></div><div class="need-card"><div class="need-title">Business Development</div><ul><li><a href="#">Business Development Forms</a></li><li><a href="#">Proposal Support Request</a></li></ul></div><div class="need-card"><div class="need-title">HR Forms</div><ul><li><a href="#">DM Employee Handbooks</a></li><li><a href="#">DM Travel &amp; Expense Report</a></li><li><a href="#">Requisition Forms &amp; Events</a></li><li><a href="#">Other HR Forms</a></li><li><a href="#">Benefits</a></li></ul></div></div></div>
+            </div>
+            <section class="lower-grid"><div class="card"><div class="card-header">My Team</div><div class="card-body"><ul class="list"><li><strong>Operations Team</strong><span>Static placeholder content</span></li><li><strong>Clinical Team</strong><span>Static placeholder content</span></li><li><strong>Support Team</strong><span>Static placeholder content</span></li></ul></div></div><div class="card"><div class="card-header">My Important Forms</div><div class="card-body"><ul class="list"><li><strong>Leave Request Form</strong><span>Internal HR document</span></li><li><strong>Expense Reimbursement</strong><span>Finance workflow</span></li><li><strong>IT Support Request</strong><span>Static link placeholder</span></li></ul></div></div><div class="card"><div class="card-header">Recent Files</div><div class="card-body"><ul class="list"><li><strong>Onboarding Guide.pdf</strong><span>Updated 2 days ago</span></li><li><strong>Clinical SOP.docx</strong><span>Updated 4 days ago</span></li><li><strong>Monthly KPI.xlsx</strong><span>Updated 1 week ago</span></li></ul></div></div></section>
+          </div>
+          <aside class="home-aside" aria-label="Sidebar">
+            <div class="card tz-card">
+              <div class="card-header">World clocks</div>
+              <div class="card-body"><div class="tz-clocks"><div class="tz-clock" data-tz="America/New_York"><div class="tz-label">New York</div><div class="tz-time">—</div><div class="tz-date"></div></div><div class="tz-clock" data-tz="America/Chicago"><div class="tz-label">Chicago</div><div class="tz-time">—</div><div class="tz-date"></div></div><div class="tz-clock" data-tz="Europe/London"><div class="tz-label">London</div><div class="tz-time">—</div><div class="tz-date"></div></div><div class="tz-clock" data-tz="Asia/Tokyo"><div class="tz-label">Tokyo</div><div class="tz-time">—</div><div class="tz-date"></div></div></div></div>
+            </div>
+            <div class="card workspace-card">
+              <div class="card-header">Google Suite</div>
+              <div class="card-body"><div class="app-grid app-grid--workspace"><a class="suite-item" href="https://mail.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/gmail_48dp.png" alt="" /></div><span>Gmail</span></a><a class="suite-item" href="https://chat.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/chat_48dp.png" alt="" /></div><span>Chat</span></a><a class="suite-item" href="https://drive.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/drive_48dp.png" alt="" /></div><span>Drive</span></a><a class="suite-item" href="https://meet.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/meet_48dp.png" alt="" /></div><span>Meet</span></a><a class="suite-item" href="https://docs.google.com/document" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/docs_48dp.png" alt="" /></div><span>Docs</span></a><a class="suite-item" href="https://docs.google.com/spreadsheets" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/sheets_48dp.png" alt="" /></div><span>Sheets</span></a><a class="suite-item" href="https://docs.google.com/presentation" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/slides_48dp.png" alt="" /></div><span>Slides</span></a><a class="suite-item" href="https://forms.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/forms_48dp.png" alt="" /></div><span>Forms</span></a><a class="suite-item" href="https://calendar.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/calendar_48dp.png" alt="" /></div><span>Calendar</span></a><a class="suite-item" href="https://keep.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/keep_48dp.png" alt="" /></div><span>Keep</span></a><a class="suite-item" href="https://sites.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/sites_48dp.png" alt="" /></div><span>Sites</span></a><a class="suite-item" href="https://groups.google.com" target="_blank" rel="noopener noreferrer"><div class="suite-icon-wrap"><img src="https://www.gstatic.com/images/branding/product/1x/groups_48dp.png" alt="" /></div><span>Groups</span></a></div></div>
+            </div>
+          </aside>
+        </div>
+      </div></div>
+    <div data-view="directory" hidden><div class="page-head">
   <h1 class="page-title">Directory</h1>
+  <p class="page-lede">Staff and contacts</p>
 </div>
 
-<div class="secondary-main">
+<div class="page-narrow">
   <div class="card">
     <div class="card-header">Staff directory</div>
     <div class="card-body">
@@ -54,12 +1246,13 @@
     </div>
   </div>
 </div>
-</template>
-<template id="tpl-forms"><div class="topbar">
+</div>
+    <div data-view="forms" hidden><div class="page-head">
   <h1 class="page-title">Forms</h1>
+  <p class="page-lede">Requests and documents</p>
 </div>
 
-<div class="secondary-main">
+<div class="page-narrow">
   <div class="card">
     <div class="card-header">Forms &amp; requests</div>
     <div class="card-body">
@@ -67,13 +1260,112 @@
         Department request links and form catalogs will live here. For now, use <strong>Home</strong> and scroll to
         <strong>Quick Request → I Need</strong> for the same list as the original single-page layout.
       </p>
-      <p style="margin-bottom: 0"><a class="btn-primary" href="#/home">Go to Home</a></p>
+      <p class="page-actions"><a class="btn-primary" href="#/home">Go to Home</a></p>
     </div>
   </div>
 </div>
-</template>
-<!-- /view-templates -->
+</div>
+    <div data-view="admin" hidden>
+<div class="page-head">
+  <h1 class="page-title">Admin</h1>
+  <p class="page-lede">Static site — content is fixed in HTML. Edit <code>index.html</code> (or source files + run <code>gen-static.mjs</code>) to change copy.</p>
+</div>
+<div class="page-narrow">
+  <div class="card">
+    <div class="card-header">No live editor</div>
+    <div class="card-body">
+      <p>This build has no client-side admin or <code>localStorage</code> editing. Update the file in your editor and redeploy.</p>
+      <p class="page-actions"><a class="btn-primary" href="#/home">Back to Home</a></p>
+    </div>
+  </div>
+</div></div>
+  </main>
+  </div>
+  <script>
+(function () {
+  var ROUTES = ["home", "directory", "forms", "admin"];
+  var TITLES = {
+    home: "DM Clinical Write Plus — Home",
+    directory: "DM Clinical Write Plus — Directory",
+    forms: "DM Clinical Write Plus — Forms",
+    admin: "DM Clinical Write Plus — Admin"
+  };
+  function getRoute() {
+    var raw = (window.location.hash || "").replace(/^#\/?/, "");
+    var name = (raw.split("/")[0] || "home").toLowerCase();
+    return ROUTES.indexOf(name) >= 0 ? name : "home";
+  }
+  function setActiveNav(route) {
+    document.querySelectorAll("#main-nav a[data-route]").forEach(function (a) {
+      a.classList.toggle("active", a.getAttribute("data-route") === route);
+    });
+  }
+  function show(route) {
+    document.querySelectorAll("[data-view]").forEach(function (el) {
+      el.hidden = el.getAttribute("data-view") !== route;
+    });
+    setActiveNav(route);
+    document.title = TITLES[route] || "DM Clinical Write Plus";
+  }
+  function onHash() {
+    show(getRoute());
+  }
+  window.addEventListener("hashchange", onHash);
+  if (!window.location.hash || window.location.hash === "#") {
+    window.location.hash = "#/home";
+  } else {
+    onHash();
+  }
+})();
 
-  <script src="script.js"></script>
+(function () {
+  var form = document.getElementById("google-search-form");
+  if (!form) return;
+  var input = form.querySelector('input[name="q"]');
+  form.addEventListener("submit", function (e) {
+    var raw = input ? String(input.value).trim() : "";
+    if (!raw) {
+      e.preventDefault();
+      return;
+    }
+    if (/^https?:\/\//i.test(raw)) {
+      e.preventDefault();
+      window.open(raw, "_blank", "noopener,noreferrer");
+    }
+  });
+})();
+
+(function () {
+  function tick() {
+    var now = new Date();
+    document.querySelectorAll(".tz-clock[data-tz]").forEach(function (clock) {
+      var z = clock.getAttribute("data-tz");
+      var timeEl = clock.querySelector(".tz-time");
+      var dateEl = clock.querySelector(".tz-date");
+      if (!timeEl || !dateEl) return;
+      try {
+        timeEl.textContent = new Intl.DateTimeFormat("en-US", {
+          timeZone: z,
+          hour: "numeric",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: true
+        }).format(now);
+        dateEl.textContent = new Intl.DateTimeFormat("en-US", {
+          timeZone: z,
+          weekday: "short",
+          month: "short",
+          day: "numeric"
+        }).format(now);
+      } catch (e) {
+        timeEl.textContent = "—";
+        dateEl.textContent = "";
+      }
+    });
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+  </script>
 </body>
 </html>
